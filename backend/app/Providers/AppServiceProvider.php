@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Carbon;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    public function boot(): void
+    {
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+        $backendUrl = URL::temporarySignedRoute (
+            'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id'=> $notifiable->getKey(),
+                'hash' => hash('sha256', $notifiable->getEmailForVerification())
+            ]
+        );
+
+            $parsed    = parse_url($backendUrl);
+            $id        = $notifiable->getKey();
+            $hash      = hash('sha256', $notifiable->getEmailForVerification());
+ 
+            parse_str($parsed['query'] ?? '', $queryParams);
+ 
+            $frontendUrl = config('app.frontend_url', 'http://localhost:5173');
+ 
+            $params = http_build_query([
+                'id'        => $id,
+                'hash'      => $hash,
+                'expires'   => $queryParams['expires'] ?? '',
+                'signature' => $queryParams['signature'] ?? '',
+            ]);
+ 
+            return $frontendUrl . '/conta-verificada?' . $params;
+        });
+}
+
+}
