@@ -63,9 +63,9 @@ class AuthService
     {
         Auth::guard('web')->logout();
 
-        request()->session()->invalidate();
+        $request->session()->invalidate();
 
-        request()->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
         // Coloca a instrução de destruição do cookie na fila
         Cookie::queue(Cookie::forget(config('session.cookie')));

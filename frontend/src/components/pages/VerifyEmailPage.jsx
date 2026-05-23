@@ -16,7 +16,7 @@ export default function VerifyEmailPage() {
 
     try {
   
-      await api.post("/api/email/resend");
+      await api.post("/api/auth/email/resend");
       setResent(true);
     } catch (error) {
       setResendError(
