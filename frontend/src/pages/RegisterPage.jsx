@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
-import AuthLayout   from '../layouts/AuthLayout';
-import { Input, PasswordInput } from '../ui/Input';
-import Button       from '../ui/Button';
-import Link         from '../ui/Link';
-import FeatureCard  from '../ui/FeaturedCard';
+import AuthLayout   from '../components/layouts/AuthLayout';
+import { Input, PasswordInput } from '../components/ui/Input';
+import Button       from '../components/ui/Button';
+import Link         from '../components/ui/Link';
+import FeatureCard  from '../components/ui/FeaturedCard';
 
-import registerIllustration from '../../assets/register_illustration.svg';
+import registerIllustration from '../assets/register.svg';
 
 const panelCard = (
   <FeatureCard
@@ -80,7 +80,9 @@ export default function RegisterPage() {
         password_confirmation: form.confirmPassword,
       });
 
-      navigate('/verificar-email');
+      sessionStorage.setItem("pending_verification_email", form.email);
+
+      navigate('/verificar-email', { state: { email: form.email } });
 
     } catch (error) {
       if (error.response?.status === 422) {

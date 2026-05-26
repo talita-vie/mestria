@@ -56,5 +56,36 @@ class RateLimiterServiceProvider extends ServiceProvider
                     }),
             ];
         });
+
+        RateLimiter::for('forgot', function (Request $request) {
+          $email = (string) $request->input('email', '');
+            return [
+                Limit::perMinute(1)
+                    ->by('forgot_email:' .  mb_strtolower($email))
+                    ->response(function () {
+                        return response()->json([
+                            'message' => 'Muitas tentativas de recuperação para esse email. Aguarde 1 minuto antes de tentar novamente.',
+                        ], 429);
+                    }),
+
+                Limit::perMinute(1)
+                    ->by('forgot_ip:' . $request->ip())
+                    ->response(function () {
+                        return response()->json([
+                            'message' => 'Muitas tentativas de recuperação para esse email. Aguarde 1 minuto antes de tentar novamente.',
+                        ], 429);
+                    }),      
+            ];
+        });
+
+        RateLimiter::for('reset', function (Request $request) {
+            return Limit::perMinute(1)
+                ->by('reset_ip:'. $request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'message' => 'Muitas tentativas de redefinição de senha. Aguarde antes de tentar novamente.',
+                    ], 429);
+                });
+        });
     }
 }

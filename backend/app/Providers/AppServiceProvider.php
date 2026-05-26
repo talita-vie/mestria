@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Auth\Notifications\ResetPassword; 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Carbon;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
             ]);
  
             return $frontendUrl . '/conta-verificada?' . $params;
+        });
+
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return config('app.frontend_url') . '/reset-senha?token=' . $token . '&email=' . urlencode($user->email);
         });
 }
 

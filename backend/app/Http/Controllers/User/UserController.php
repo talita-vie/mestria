@@ -8,10 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\DeleteAccountRequest;  
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use App\Services\AuthService;
 
 class UserController extends Controller
 {
+      public function __construct(
+        private AuthService $authService
+    ) {}
+
     public function updatePassword(UpdatePasswordRequest $request, UpdatePasswordAction $action): JsonResponse
     {
         $action->execute(
@@ -26,10 +30,7 @@ class UserController extends Controller
     {
         
         $action->execute($request->user());
-
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->authService->logout($request);
 
         return response()->json(['message' => 'Conta excluída com sucesso.']);
     }

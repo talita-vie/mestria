@@ -54,6 +54,22 @@ class AuthController extends Controller
     }
 
     // POST /api/auth/email/resend
+
+     public function resendByEmail(Request $request): JsonResponse
+    {
+        $request->validate(['email' => 'required|email']);
+ 
+        $user = User::where('email', $request->email)->first();
+ 
+        if ($user && ! $user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+        }
+ 
+        return response()->json([
+            'message' => 'Se o email existir e não estiver verificado, você receberá um novo link em breve.',
+        ]);
+    }
+    
     public function resendVerification(Request $request): JsonResponse
     {
         if ($request->user()->hasVerifiedEmail()) {

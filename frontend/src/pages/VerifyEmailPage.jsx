@@ -1,22 +1,37 @@
-import { useState } from "react"; 
-import api from "../../services/api";
+// src/pages/VerifyEmailPage.jsx
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import api from "../services/api";
 
-import Button from "../ui/Button";
-import Link   from "../ui/Link";
+import Button from "../components/ui/Button";
+import Link   from "../components/ui/Link";
 
 export default function VerifyEmailPage() {
-  const [resending, setResending] = useState(false);
-  const [resent, setResent]       = useState(false);
+
+  const { state } = useLocation();
+  const email =
+    state?.email ||
+    sessionStorage.getItem("pending_verification_email") ||
+    "";
+
+  const [resending, setResending]     = useState(false);
+  const [resent, setResent]           = useState(false);
   const [resendError, setResendError] = useState("");
 
   async function handleResend() {
+    if (!email) {
+      setResendError(
+        "Não foi possível identificar o email. Volte ao cadastro e tente novamente."
+      );
+      return;
+    }
+
     setResending(true);
     setResent(false);
     setResendError("");
 
     try {
-  
-      await api.post("/api/auth/email/resend");
+      await api.post("/api/auth/email/resend", { email });
       setResent(true);
     } catch (error) {
       setResendError(
@@ -80,11 +95,12 @@ export default function VerifyEmailPage() {
             </h1>
 
             {/* Description */}
-            <p className="text-body-md text-on-surface-variant max-w-[360px] mb-8 leading-relaxed">
+            <p className="text-body-md text-on-surface-variant max-w-[360px] mb-2 leading-relaxed">
               Enviamos um link de verificação para o seu email. Por favor, clique no link
               para verificar sua conta e acessar a plataforma.
             </p>
 
+            {/* Feedback de reenvio bem-sucedido */}
             {resent && (
               <div className="w-full mb-4 rounded-lg border border-outline-variant/30 bg-surface-container px-4 py-3 flex items-center gap-2 text-body-sm text-on-surface-variant">
                 <span
@@ -97,6 +113,7 @@ export default function VerifyEmailPage() {
               </div>
             )}
 
+            {/* Erro de reenvio */}
             {resendError && (
               <div className="w-full mb-4 rounded-lg border border-error/30 bg-error-container/20 px-4 py-3 text-body-sm text-error">
                 {resendError}
@@ -110,8 +127,8 @@ export default function VerifyEmailPage() {
                 variant="primary"
                 size="lg"
                 fullWidth
-                loading={resending}          
-                disabled={resent}           
+                loading={resending}
+                disabled={resent || !email}
                 className="mt-2"
               >
                 {resent ? "Email reenviado" : "Reenviar email"}

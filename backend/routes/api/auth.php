@@ -13,14 +13,14 @@ Route::prefix('auth')->group(function () {
         ->middleware(['signed'])
         ->name('verification.verify');
 
-    Route::post('forgot-password', [PasswordResetController::class, 'forgot']);
-    Route::post('reset-password', [PasswordResetController::class, 'reset']);
+    Route::post('forgot-password', [PasswordResetController::class, 'forgot'])->middleware('throttle:forgot');
+    Route::post('reset-password', [PasswordResetController::class, 'reset'])->middleware('throttle:reset');
+
+    Route::post('email/resend', [AuthController::class, 'resendByEmail'])
+        ->middleware('throttle:resend-verify');
 
     // ── Rotas protegidas (exige token Sanctum) ─────────────────────
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('email/resend', [AuthController::class, 'resendVerification'])
-            ->middleware('throttle:resend-verify');
-
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });

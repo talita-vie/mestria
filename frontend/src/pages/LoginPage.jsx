@@ -1,16 +1,16 @@
 // src/components/pages/LoginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
-import AuthLayout  from "../layouts/AuthLayout";
-import { Input, PasswordInput } from "../ui/Input";
-import Button      from "../ui/Button";
-import Link        from "../ui/Link";
-import Checkbox    from "../ui/Checkbox";
-import FeatureCard  from "../ui/FeaturedCard";
+import AuthLayout  from "../components/layouts/AuthLayout";
+import { Input, PasswordInput } from "../components/ui/Input";
+import Button      from "../components/ui/Button";
+import Link        from "../components/ui/Link";
+import Checkbox    from "../components/ui/Checkbox";
+import FeatureCard  from "../components/ui/FeaturedCard";
 
-import loginIllustration from "../../assets/login_illustration.svg";
+import loginIllustration from "../assets/login.svg";
 
 const panelCard = (
   <FeatureCard
@@ -40,6 +40,7 @@ export default function LoginPage() {
   const [errors, setErrors]         = useState({});
   const [loading, setLoading]       = useState(false);
   const [serverError, setServerError] = useState("");
+  const [showResend, setShowResend] = useState(false);
 
   // ── Handlers ───────────────────────────────────────────────────────────
   function handleChange(field) {
@@ -48,6 +49,7 @@ export default function LoginPage() {
       setForm((prev) => ({ ...prev, [field]: value }));
       if (errors[field])  setErrors((prev) => ({ ...prev, [field]: undefined }));
       if (serverError)    setServerError("");
+      if (showResend)     setShowResend(false);
     };
   }
 
@@ -68,6 +70,7 @@ export default function LoginPage() {
     }
 
     setLoading(true);
+    setShowResend(false);
 
     try {
       await login({
@@ -78,13 +81,24 @@ export default function LoginPage() {
 
       navigate("/dashboard");
 
-    } catch (error) {
+     } catch (error) {
       if (error.response?.status === 422) {
         const apiErrors = error.response.data.errors ?? {};
-        setErrors({
-          email:    apiErrors.email?.[0],
-          password: apiErrors.password?.[0],
-        });
+        const emailError = apiErrors.email?.[0];
+ 
+        if (emailError === "email_not_verified") {
+          // Caso específico: conta existe mas email ainda não foi verificado.
+          // Exibe mensagem amigável + link para reenviar o email.
+          setErrors({
+            email: "Você precisa verificar seu email antes de fazer login.",
+          });
+          setShowResend(true);
+        } else {
+          setErrors({
+            email:    emailError,
+            password: apiErrors.password?.[0],
+          });
+        }
       } else {
         setServerError(
           error.response?.data?.message ?? "Erro ao conectar. Tente novamente."
@@ -93,6 +107,10 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+  }
+ 
+  function handleGoToResend() {
+    navigate("/verificar-email", { state: { email: form.email } });
   }
 
   // ── Render ─────────────────────────────────────────────────────────────
@@ -131,6 +149,26 @@ export default function LoginPage() {
           error={errors.email}
         />
 
+      {showResend && (
+          <button
+            type="button"
+            onClick={handleGoToResend}
+            className="
+              -mt-2 self-start
+              inline-flex items-center gap-1
+              text-label-sm text-primary
+              underline underline-offset-2
+              hover:text-primary/80
+              transition-colors
+            "
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
+              mail
+            </span>
+            Reenviar email de verificação
+          </button>
+        )}
+
         <PasswordInput
           label="Senha"
           placeholder="••••••••"
@@ -148,7 +186,7 @@ export default function LoginPage() {
             checked={form.remember}
             onChange={handleChange("remember")}
           />
-          <Link href="/forgot-password" variant="secondary" className="text-label-md shrink-0">
+          <Link href="/esqueci-senha" variant="secondary" className="text-label-md shrink-0">
             Esqueceu a senha?
           </Link>
         </div>
