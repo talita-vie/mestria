@@ -17,7 +17,6 @@ class Certificate extends Model
         'course_title',
         'instructor_name',
         'file_path',
-        'issued_at'
     ];
 
     public function user()

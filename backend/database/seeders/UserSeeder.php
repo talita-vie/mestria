@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -12,20 +12,34 @@ class UserSeeder extends Seeder
     {
         $password = Hash::make('password');
 
-        DB::table('users')->insert([
-            ['id' => 1, 'name' => 'Admin Principal', 'email' => 'admin@plataforma.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 2, 'name' => 'Carlos Silva', 'email' => 'carlos.silva@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 3, 'name' => 'Marta Souza', 'email' => 'marta.souza@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 4, 'name' => 'Joao Pedro', 'email' => 'joao.pedro@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 5, 'name' => 'Ana Clara', 'email' => 'ana.clara@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 'created_at' => now(), 'updated_at' => now()],
+        $admin = User::create([
+            'name' => 'Admin Principal', 'email' => 'admin@plataforma.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(),
         ]);
+        $admin->assignRole('admin');
 
-        DB::table('role_user')->insert([
-            ['user_id' => 1, 'role_id' => 1],
-            ['user_id' => 2, 'role_id' => 2],
-            ['user_id' => 3, 'role_id' => 2],
-            ['user_id' => 4, 'role_id' => 3],
-            ['user_id' => 5, 'role_id' => 3],
+        $instructor1= User::create([
+            'name' => 'Carlos Silva', 'email' => 'carlos.silva@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(),
         ]);
+        $instructor1->assignRole('instructor');
+
+        $instructor2= User::create([
+            'name' => 'Marta Souza', 'email' => 'marta.souza@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(), 
+        ]);
+        $instructor2->assignRole('instructor');
+
+        $student1= User::create([
+            'name' => 'Carla Lemos', 'email' => 'carla.lemos@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(),
+        ]);
+        $student1->assignRole('student');
+
+        $student2= User::create([
+            'name' => 'Ana Clara', 'email' => 'ana.clara@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(),
+        ]);
+        $student2->assignRole('student');
+
+        $student3= User::create([
+            'name' => 'João Paulo', 'email' => 'joao.paulo@email.com', 'password' => $password, 'status' => 'active', 'email_verified_at' => now(),
+        ]);
+        $student3->assignRole('student');
     }
 }

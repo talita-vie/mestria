@@ -20,9 +20,9 @@ class AuthService
             'password' => Hash::make($data['password']),
         ]);
 
-        $role = \App\Models\Role::where('name', 'aluno')->first();
+        $role = \Spatie\Permission\Models\Role::where('name', 'student')->first();
         if ($role) {
-          $user->roles()->attach($role->id);
+          $user->assignRole($role);
         }
 
         event(new Registered($user));

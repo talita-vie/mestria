@@ -22,9 +22,9 @@ class AdminService
             'password' => Hash::make($data['password']),
         ]);
 
-        $role = \App\Models\Role::where('name', $data['role'])->first();
+        $role = \Spatie\Permission\Models\Role::where('name', $data['role'])->first();
         if ($role) {
-            $user->roles()->attach($role->id);
+            $user->assignRole($role);
         }
 
         event(new Registered($user));
@@ -43,9 +43,9 @@ class AdminService
 
     $user->save();
 
-    $role = \App\Models\Role::where('name', $data['role'])->first();
+    $role = \Spatie\Permission\Models\Role::where('name', $data['role'])->first();
     if ($role) {
-        $user->roles()->sync([$role->id]);
+        $user->syncRoles([$role]);
     }
 
     $user->load('roles');

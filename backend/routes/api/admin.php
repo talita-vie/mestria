@@ -10,5 +10,6 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::get('users/{user}', [UserManagementController::class, 'show']);           
     Route::post('users', [UserManagementController::class, 'createUser']);           
     Route::put('users/{user}', [UserManagementController::class, 'updateUser']);      
-    Route::delete('users/{user}', [UserManagementController::class, 'destroyUser']);  
+    Route::delete('users/{user}', [UserManagementController::class, 'destroyUser']);
 });
+

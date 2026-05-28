@@ -86,9 +86,7 @@ export default function LoginPage() {
         const apiErrors = error.response.data.errors ?? {};
         const emailError = apiErrors.email?.[0];
  
-        if (emailError === "email_not_verified") {
-          // Caso específico: conta existe mas email ainda não foi verificado.
-          // Exibe mensagem amigável + link para reenviar o email.
+        if (emailError === "Confirme seu email antes de fazer login.") {
           setErrors({
             email: "Você precisa verificar seu email antes de fazer login.",
           });

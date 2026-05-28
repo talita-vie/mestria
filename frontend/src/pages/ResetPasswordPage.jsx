@@ -9,7 +9,7 @@ import Button                        from '../components/ui/Button';
 import Link                          from '../components/ui/Link';
 import FeatureCard                   from '../components/ui/FeaturedCard';
 
-import loginIllustration from '../assets/login.svg';
+import loginIllustration from '../assets/reset.svg';
 
 // ── Painel decorativo ──────────────────────────────────────────────────────
 const panelCard = (

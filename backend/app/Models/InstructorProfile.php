@@ -11,23 +11,16 @@ class InstructorProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'specialty',
         'bio',
-        'status',
-        'approved_by',
-        'approved_at',
-        'rejection_reason'
+        'linkedin'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
-    }
-
+    
     public function courses()
     {
         return $this->hasMany(Course::class, 'instructor_id');

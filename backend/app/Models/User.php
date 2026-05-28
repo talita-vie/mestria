@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+
+    protected $guard_name='web';
 
     protected $fillable = [
         'name',
@@ -24,12 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
-
-    // 🔗 Roles (N:N)
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
 
     // 🔗 Instructor Profile (1:1)
     public function instructorProfile()
@@ -71,10 +68,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Certificate::class);
     }
-    
-    // Verificar papel do usuário
-    public function hasAnyRole(array $roles): bool
+
+    // 🔗 Quiz Attempts
+    public function quizAttempts()
     {
-    return $this->roles()->whereIn('name', $roles)->exists();
+        return $this->hasMany(QuizAttempt::class);
     }
+    
 }

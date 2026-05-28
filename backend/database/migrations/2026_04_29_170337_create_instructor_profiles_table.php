@@ -16,12 +16,9 @@ return new class extends Migration
         $table->id();
         $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
 
+        $table->string('specialty')->nullable();
         $table->text('bio')->nullable();
-        $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-
-        $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
-        $table->timestamp('approved_at')->nullable();
-        $table->text('rejection_reason')->nullable();
+        $table->string('linkedin')->nullable();
 
         $table->timestamps();
 });
