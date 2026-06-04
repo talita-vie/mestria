@@ -26,8 +26,6 @@ return new class extends Migration
 
         $table->timestamps();
         $table->softDeletes();
-
-        $table->unique(['module_id', 'position']);
 });
     }
 

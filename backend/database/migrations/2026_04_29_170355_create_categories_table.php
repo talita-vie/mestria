@@ -15,6 +15,8 @@ return new class extends Migration
         $table->id();
         $table->string('name', 100);
         $table->string('slug')->unique();
+        $table->enum('status', ['active', 'inactive'])->default('active');
+        $table->softDeletes();
         $table->timestamps();
 });
     }

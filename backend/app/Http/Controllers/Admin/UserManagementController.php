@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Services\AdminService;
-use App\Http\Resources\AdminResource;
+use App\Http\Resources\Admin\UserResource;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 
@@ -21,14 +21,14 @@ class UserManagementController extends Controller
     {
         $users = $this->adminService->getAllUsers();
         
-        return AdminResource::collection($users)->response()->setStatusCode(200);
+        return UserResource::collection($users)->response()->setStatusCode(200);
     }
 
         public function show(User $user): JsonResponse
     {
         $user->load('roles'); 
         
-        return response()->json(new AdminResource($user), 200);
+        return response()->json(new UserResource($user), 200);
     }
  
     public function createUser(StoreUserRequest $request): JsonResponse
@@ -37,7 +37,7 @@ class UserManagementController extends Controller
 
         return response()->json([
             'message' => 'Conta criada com sucesso.',
-            'user'    => new AdminResource($user),
+            'user'    => new UserResource($user),
             ], 201);
     }
 
@@ -47,7 +47,7 @@ class UserManagementController extends Controller
 
         return response()->json([
             'message' => 'Conta modificada com sucesso.',
-            'user'    => new AdminResource($updatedUser),
+            'user'    => new UserResource($updatedUser),
             ], 200);
     }
 

@@ -22,21 +22,9 @@ class Course extends Model
         'submitted_for_review_at'
     ];
 
-    public function instructorProfile()
-    {
-        return $this->belongsTo(InstructorProfile::class, 'instructor_id');
-    }
-
     public function instructor()
     {
-        return $this->hasOneThrough(
-            User::class,
-            InstructorProfile::class,
-            'id',             
-            'id',             
-            'instructor_id',  
-            'user_id'       
-        );
+        return $this->belongsTo(User::class, 'instructor_id');
     }
 
     public function category()

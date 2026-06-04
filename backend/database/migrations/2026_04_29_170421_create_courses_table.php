@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
 
         $table->foreignId('instructor_id')
-            ->constrained('instructor_profiles')
+            ->constrained('users')
             ->restrictOnDelete();
 
         $table->foreignId('category_id')
@@ -26,8 +26,13 @@ return new class extends Migration
         $table->text('description')->nullable();
         $table->string('thumbnail')->nullable();
 
-        $table->enum('status', ['draft', 'pending_review', 'published', 'archived'])
-            ->default('draft');
+        $table->enum('status', [
+            'draft',
+            'pending_approval',
+            'published', 
+            'rejected',
+            'archived'
+            ])->default('draft');
 
         $table->foreignId('approved_by')
             ->nullable()

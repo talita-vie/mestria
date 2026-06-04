@@ -10,11 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 
+
+
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
-
-    protected $guard_name='web';
+    use HasApiTokens, HasFactory, Notifiable, HasRoles , SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -34,6 +34,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(InstructorProfile::class);
     }
 
+    // 🔗 Courses by instructor
+    public function instructorCourses()
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
+    }
+
     // 🔗 Enrollments
     public function enrollments()
     {
@@ -41,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // 🔗 Courses via enrollments
-    public function courses()
+    public function enrolledCourses()
     {
         return $this->belongsToMany(Course::class, 'enrollments');
     }

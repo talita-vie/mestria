@@ -79,11 +79,11 @@ class RateLimiterServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('reset', function (Request $request) {
-            return Limit::perMinute(1)
+            return Limit::perMinute(10)
                 ->by('reset_ip:'. $request->ip())
                 ->response(function () {
                     return response()->json([
-                        'message' => 'Muitas tentativas de redefinição de senha. Aguarde antes de tentar novamente.',
+                        'message' => 'Muitas tentativas de redefinição de senha. Aguarde 1 min antes de tentar novamente.',
                     ], 429);
                 });
         });

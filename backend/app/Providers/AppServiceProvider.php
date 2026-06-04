@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Category::class, \App\Policies\CategoryPolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Course::class, \App\Policies\CoursePolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Module::class, \App\Policies\ModulePolicy::class);
+         \Illuminate\Support\Facades\Gate::policy(\App\Models\Lesson::class, \App\Policies\LessonPolicy::class);
+
         VerifyEmail::createUrlUsing(function ($notifiable) {
         $backendUrl = URL::temporarySignedRoute (
             'verification.verify',

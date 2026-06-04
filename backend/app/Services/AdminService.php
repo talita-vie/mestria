@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -52,6 +53,31 @@ class AdminService
         
 
         return $user;
+    }
+
+    //Gestão de Categorias
+    public function getAllCategories ()
+    {
+        return Category::paginate(15);
+    }
+
+      public function createCategory(array $data): Category
+    {
+        return Category::create([
+            'name'   => $data['name'],
+            'slug'   => $data['slug'],
+            'status' => $data['status'] ?? 'active',
+        ]);
+    }
+
+    public function updateCategory(Category $category, array $data): Category
+    {
+        $category->name   = $data['name'];
+        $category->slug   = $data['slug'];
+        $category->status = $data['status'] ?? $category->status;
+        $category->save();
+
+        return $category;
     }
 
 }
