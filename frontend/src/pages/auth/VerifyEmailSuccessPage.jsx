@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams} from "react-router-dom";
 import { useState, useEffect} from "react";
-import api from "../services/api";
-import Button from "../components/ui/Button";
-import AuthSuccessLayout from "../components/layouts/AuthSuccessLayout";
+import api from "../../services/api";
+import Button from "../../components/ui/Button";
+import AuthSuccessLayout from "../../components/layouts/AuthSuccessLayout";
 
 export default function VerifyEmailSuccessPage() {
   const navigate = useNavigate();

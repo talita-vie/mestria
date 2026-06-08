@@ -1,15 +1,15 @@
 // src/pages/ForgotPasswordPage.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api, { initCsrf } from '../services/api';
+import api, { initCsrf } from '@/services/api';
 
-import AuthLayout  from '../components/layouts/AuthLayout';
-import { Input }   from '../components/ui/Input';
-import Button      from '../components/ui/Button';
-import Link        from '../components/ui/Link';
-import FeatureCard from '../components/ui/FeaturedCard';
+import AuthLayout  from '@/components/layouts/AuthLayout';
+import { Input }   from '@/components/ui/Input';
+import Button      from '@/components/ui/Button';
+import Link        from '@/components/ui/Link';
+import FeatureCard from '@/components/ui/FeaturedCard';
 
-import loginIllustration from '../assets/forgotpassword.svg';
+import loginIllustration from '@/assets/forgotpassword.svg';
 
 // ── Painel decorativo (coluna direita) ─────────────────────────────────────
 const panelCard = (

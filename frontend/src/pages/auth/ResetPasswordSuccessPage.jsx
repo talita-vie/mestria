@@ -1,7 +1,7 @@
 // src/pages/ResetPasswordSuccessPage.jsx
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import AuthSuccessLayout from "../components/layouts/AuthSuccessLayout";
+import Button from "../../components/ui/Button";
+import AuthSuccessLayout from "../../components/layouts/AuthSuccessLayout";
 
 export default function ResetPasswordSuccessPage() {
   const navigate = useNavigate();

@@ -1,10 +1,10 @@
 // src/pages/VerifyEmailPage.jsx
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import api from "../services/api";
+import api from "../../services/api";
 
-import Button from "../components/ui/Button";
-import Link   from "../components/ui/Link";
+import Button from "../../components/ui/Button";
+import Link   from "../../components/ui/Link";
 
 export default function VerifyEmailPage() {
 

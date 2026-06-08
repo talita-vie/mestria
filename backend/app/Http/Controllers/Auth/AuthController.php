@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Conta criada com sucesso.',
-            'user'    => new UserResource($user),
+            'user'    => new UserResource($user->load('roles')),
             ], 201);
     }
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login realizado com sucesso.',
-            'user'    => new UserResource($user),
+            'user'    => new UserResource($user->load('roles')),
         ]);
     }
 
@@ -103,6 +103,6 @@ class AuthController extends Controller
     // GET /api/user  [auth:sanctum]
     public function me(Request $request): JsonResponse
     {
-        return response()->json(['user' => new UserResource($request->user())]);
+        return response()->json(['user' => new UserResource($request->user()->load('roles'))]);
     }
 }

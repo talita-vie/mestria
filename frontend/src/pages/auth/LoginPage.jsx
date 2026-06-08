@@ -1,16 +1,16 @@
 // src/components/pages/LoginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-import AuthLayout  from "../components/layouts/AuthLayout";
-import { Input, PasswordInput } from "../components/ui/Input";
-import Button      from "../components/ui/Button";
-import Link        from "../components/ui/Link";
-import Checkbox    from "../components/ui/Checkbox";
-import FeatureCard  from "../components/ui/FeaturedCard";
+import AuthLayout  from "../../components/layouts/AuthLayout";
+import { Input, PasswordInput } from "../../components/ui/Input";
+import Button      from "../../components/ui/Button";
+import Link        from "../../components/ui/Link";
+import Checkbox    from "../../components/ui/Checkbox";
+import FeatureCard  from "../../components/ui/FeaturedCard";
 
-import loginIllustration from "../assets/login.svg";
+import loginIllustration from "@/assets/login.svg";
 
 const panelCard = (
   <FeatureCard

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
-import AuthLayout   from '../components/layouts/AuthLayout';
-import { Input, PasswordInput } from '../components/ui/Input';
-import Button       from '../components/ui/Button';
-import Link         from '../components/ui/Link';
-import FeatureCard  from '../components/ui/FeaturedCard';
+import AuthLayout   from '../../components/layouts/AuthLayout';
+import { Input, PasswordInput } from '../../components/ui/Input';
+import Button       from '../../components/ui/Button';
+import Link         from '../../components/ui/Link';
+import FeatureCard  from '../../components/ui/FeaturedCard';
 
-import registerIllustration from '../assets/register.svg';
+import registerIllustration from '@/assets/register.svg';
 
 const panelCard = (
   <FeatureCard
