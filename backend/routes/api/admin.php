@@ -15,7 +15,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::delete('users/{user}', [UserManagementController::class, 'destroyUser']);
 
     //Gestão de Categorias
-    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
         
 });
 

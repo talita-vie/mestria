@@ -41,11 +41,21 @@ class CoursePolicy
 
     public function update(User $user, Course $course)
     {
-        return $user->hasRole('instructor') && $course->instructor_id === $user->id;
+        return $user->hasRole('instructor') 
+        && $course->instructor_id === $user->id
+           && (
+            $course->status === 'draft' || $course->status === 'rejected'
+        );     
     }
 
     public function delete(User $user, Course $course)
     {
         return $user->hasRole('instructor') && $course->instructor_id === $user->id;
+    }
+
+        public function submit(User $user, Course $course)
+    {
+        return $course->instructor_id === $user->id
+            && $course->status === 'draft';
     }
 }

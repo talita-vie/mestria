@@ -34,29 +34,35 @@ class AuthService
     {
         $user = User::where('email', $credentials['email'])->first();
 
-        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+        if ($user) {
+
+            if (! $user->hasVerifiedEmail()) {
+                throw ValidationException::withMessages([
+                    'email' => ['Confirme seu email antes de fazer login.'],
+                ]);
+            }
+
+            if ($user->status !== 'active') {
+                throw ValidationException::withMessages([
+                    'email' => ['Esta conta está suspensa ou desativada.'],
+                ]);
+            }
+        }
+
+        $attempt = Auth::guard('web')->attempt(
+            ['email' => $credentials['email'], 'password' => $credentials['password']],
+            $credentials['remember'] ?? false
+        );
+
+        if (! $attempt) {
             throw ValidationException::withMessages([
                 'email' => ['As credenciais fornecidas estão incorretas.'],
             ]);
         }
 
-        if (! $user->hasVerifiedEmail()) {
-            throw ValidationException::withMessages([
-                'email' => ['Confirme seu email antes de fazer login.'],
-            ]);
-        }
-
-        if ($user->status !== 'active') {
-            throw ValidationException::withMessages([
-                'email' => ['Esta conta está suspensa ou desativada.'],
-            ]);
-        }
-
-        Auth::login($user, $credentials['remember'] ?? false);
-
         request()->session()->regenerate();
 
-        return $user;
+        return Auth::guard('web')->user();
     }
 
     public function logout(Request $request): void

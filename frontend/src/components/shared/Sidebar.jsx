@@ -1,7 +1,7 @@
 // src/components/shared/Sidebar.jsx
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import logo from '../../assets/mestria-logo.png';
+import { useAuth } from '@/features/auth/contexts/AuthContext';
+import logo from '@/assets/mestria-logo.png';
 
 const instructorLinks = [
   { to: '/dashboard',          icon: 'dashboard',      label: 'Dashboard' },

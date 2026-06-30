@@ -65,4 +65,13 @@ class CourseController extends Controller
         
         return response()->json(['message' => 'Curso removido com sucesso.']);
     }
+
+    public function submit(Course $course): JsonResponse 
+    {
+        $this->authorize('submit', $course);
+
+        $this->courseService->submitCourse($course);
+
+        return response()->json(['message' => 'Curso submetido! Aguarde a aprovação do admnistrador']);
+    }
 }

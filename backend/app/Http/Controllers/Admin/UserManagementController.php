@@ -53,8 +53,14 @@ class UserManagementController extends Controller
 
     public function destroyUser(User $user): JsonResponse
     {
+        $user->update(['status' => 'suspended']);
+        return response()->json(['message' => 'Conta suspensa com sucesso.'], 200);
+    }
+
+    public function forceDeleteUser(User $user): JsonResponse
+    {
         $user->delete(); 
         
-        return response()->json(['message' => 'Conta desativada com sucesso.'], 200);
+        return response()->json(['message' => 'Conta excluída com sucesso.'], 200);
     }
 }

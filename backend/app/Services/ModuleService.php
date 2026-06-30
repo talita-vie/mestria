@@ -49,4 +49,19 @@ class ModuleService
     {
         $module->delete();
     }
+
+    public function reorderModules(Course $course, array $items): void
+    {
+        // Garante que só reordena módulos que pertencem ao curso
+        $validIds = $course->modules()->pluck('id')->flip();
+ 
+        foreach ($items as $item) {
+            if (!isset($validIds[$item['id']])) {
+                continue;
+            }
+ 
+            Module::where('id', $item['id'])
+                ->update(['position' => $item['position']]);
+        }
+    }
 }

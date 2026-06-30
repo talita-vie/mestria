@@ -12,7 +12,7 @@ class StoreLessonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->hasRole('instructor');
     }
 
     /**
@@ -25,8 +25,7 @@ class StoreLessonRequest extends FormRequest
         return [
             'title'     => ['required', 'string', 'max:255'],
             'content'   => ['nullable', 'array'],
-            'type'      => ['required', 'in:video,text'],
-            'position'  => ['required', 'integer'],
+            'type'      => ['required', 'in:video,text,attachment'],
         ];
     }
 }

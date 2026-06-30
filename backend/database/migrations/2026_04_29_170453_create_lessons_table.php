@@ -21,7 +21,7 @@ return new class extends Migration
         $table->json('content')->nullable();
 
         $table->integer('position');
-
+        
         $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
 
         $table->timestamps();

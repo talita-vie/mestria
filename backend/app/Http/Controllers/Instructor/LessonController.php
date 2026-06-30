@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Instructor;
 
 
 use App\Http\Resources\Instructor\LessonResource;
+use Illuminate\Http\Request;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Module;
 use App\Models\Lesson;
 use App\Services\LessonService;
@@ -31,6 +33,15 @@ class LessonController extends Controller
         ], 201);
     }
 
+    public function show(Course $course, Module $module, Lesson $lesson): JsonResponse
+    {
+        $this->authorize('view', $lesson);
+ 
+        $lesson->load('module.course.instructor');
+ 
+        return response()->json(new LessonResource($lesson));
+    }
+
     public function update(UpdateLessonRequest $request, Lesson $lesson): JsonResponse
     {
         // Autoriza na própria entidade Lesson
@@ -51,5 +62,20 @@ class LessonController extends Controller
         $this->lessonService->deleteLesson($lesson);
         
         return response()->json(['message' => 'Aula removida com sucesso.']);
+    }
+
+      public function reorder(Request $request, Module $module): JsonResponse
+    {
+        $this->authorize('update', $module);
+ 
+        $request->validate([
+            'lessons'          => ['required', 'array'],
+            'lessons.*.id'     => ['required', 'integer', 'exists:lessons,id'],
+            'lessons.*.position'  => ['required', 'integer', 'min:1'],
+        ]);
+ 
+        $this->lessonService->reorderLessons($module, $request->input('lessons'));
+ 
+        return response()->json(['message' => 'Aulas reordenadas com sucesso.']);
     }
 }

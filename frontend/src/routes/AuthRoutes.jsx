@@ -1,13 +1,13 @@
 import { Route } from 'react-router-dom';
-import PublicRoute from '@/components/PublicRoute';
-import LoginPage from '@/pages/auth/LoginPage';
-import RegisterPage from '@/pages/auth/RegisterPage';
-import VerifyEmailPage from '@/pages/auth/VerifyEmailPage';
-import VerifyEmailSuccessPage from '@/pages/auth/VerifyEmailSuccessPage';
-import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
-import ForgotPasswordSuccessPage from '@/pages/auth/ForgotPasswordSucessPage';
-import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
-import ResetPasswordSuccessPage from '@/pages/auth/ResetPasswordSuccessPage';
+import PublicRoute from '@/routes/PublicRoute';
+import LoginPage from '@/features/auth/pages/LoginPage';
+import RegisterPage from '@/features/auth/pages/RegisterPage';
+import VerifyEmailPage from '@/features/auth/pages/VerifyEmailPage';
+import VerifyEmailSuccessPage from '@/features/auth/pages/VerifyEmailSuccessPage';
+import ForgotPasswordPage from '@/features/auth/pages/ForgotPasswordPage';
+import ForgotPasswordSuccessPage from '@/features/auth/pages/ForgotPasswordSucessPage';
+import ResetPasswordPage from '@/features/auth/pages/ResetPasswordPage';
+import ResetPasswordSuccessPage from '@/features/auth/pages/ResetPasswordSuccessPage';
 
 export default function AuthRoutes() {
   return (

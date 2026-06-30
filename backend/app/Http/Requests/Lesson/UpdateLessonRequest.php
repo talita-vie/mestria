@@ -12,7 +12,7 @@ class UpdateLessonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->hasRole('instructor');
     }
 
     /**
@@ -25,8 +25,7 @@ class UpdateLessonRequest extends FormRequest
         return [
             'title'     => ['sometimes', 'string', 'max:255'],
             'content'   => ['nullable', 'array'],
-            'type'      => ['sometimes', 'in:video,text'],
-            'position'  => ['sometimes', 'integer'],
+            'type'      => ['sometimes', 'in:video,text,attachment'],
         ];
     }
 }

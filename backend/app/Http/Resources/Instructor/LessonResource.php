@@ -22,6 +22,23 @@ class LessonResource extends JsonResource
             'content'  => $this->content,
             'position' => $this->position,
             'status'   => $this->status,
+
+            'module' => $this->whenLoaded('module', fn() => [
+                'id'       => $this->module->id,
+                'title'    => $this->module->title,
+                'position' => $this->module->position,
+            ]),
+
+            'instructor' => $this->whenLoaded('module', function () {
+                $instructor = $this->module->course->instructor ?? null;
+                if (!$instructor) return null;
+ 
+                return [
+                    'name'   => $instructor->name,
+                    'avatar' => $instructor->avatar ?? null,
+                    'role'   => $instructor->headline ?? 'Instrutor',
+                ];
+            }),
         ];
 
     }

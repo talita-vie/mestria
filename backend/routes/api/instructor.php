@@ -13,10 +13,14 @@ Route::middleware(['auth:sanctum', 'verified', 'role:instructor'])->prefix('inst
     Route::post('courses/{course}/modules', [ModuleController::class, 'store']);
     Route::apiResource('modules', ModuleController::class)
     ->except(['store']);
+    Route::patch('courses/{course}/modules/reorder', [ModuleController::class, 'reorder']);
 
     // Gestão de Aulas vinculadas a módulos
     Route::post('modules/{module}/lessons', [LessonController::class, 'store']);
     Route::apiResource('lessons', LessonController::class)
-    ->except(['store']);
-
+    ->except(['store']);;
+    Route::patch('modules/{module}/lessons/reorder', [ LessonController::class, 'reorder']);
+    
+    // Submissão de cursos para aprovação
+    Route::post('courses/{course}/submitt', [CourseController::class, 'submit']);
 });

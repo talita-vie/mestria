@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Resources\Instructor\ModuleResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\Module\StoreModuleRequest;
 use App\Http\Requests\Module\UpdateModuleRequest;
 use App\Models\Course;
@@ -57,6 +58,21 @@ class ModuleController extends Controller
         $this->moduleService->deleteModule($module);
         
         return response()->json(['message' => 'Módulo removido com sucesso.']);
+    }
+
+     public function reorder(Request $request, Course $course): JsonResponse
+    {
+        $this->authorize('update', $course);
+ 
+        $request->validate([
+            'modules'          => ['required', 'array'],
+            'modules.*.id'     => ['required', 'integer', 'exists:modules,id'],
+            'modules.*.position'  => ['required', 'integer', 'min:1'],
+        ]);
+ 
+        $this->moduleService->reorderModules($course, $request->input('modules'));
+ 
+        return response()->json(['message' => 'Módulos reordenados com sucesso.']);
     }
 }
 

@@ -58,7 +58,7 @@ class AdminService
     //Gestão de Categorias
     public function getAllCategories ()
     {
-        return Category::paginate(15);
+        return Category::where('status', 'active')->get();
     }
 
       public function createCategory(array $data): Category

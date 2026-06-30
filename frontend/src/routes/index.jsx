@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from '../contexts/AuthContext';
-import PrivateRoute from '../components/PrivateRoute'; 
+import { AuthProvider } from '@/features/auth/contexts/AuthContext';
+import PrivateRoute from '@/routes/PrivateRoute'; 
 import AuthRoutes from '@/routes/AuthRoutes';
 import InstructorRoutes from '@/routes/InstructorRoutes';
 import AdminRoutes from '@/routes/AdminRoutes';
-import DashboardPage from '../pages/DashboardPage';
+import DashboardPage from '@/pages/DashboardPage';
 import AppLayout from '@/components/layouts/AppLayout';
 
 export default function AppRoutes() {

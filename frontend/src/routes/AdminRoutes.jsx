@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import RoleRoute from '../components/RoleRoute';
+import RoleRoute from '@/routes/RoleRoute';
 
 export default function AdminRoutes () {
   return (
