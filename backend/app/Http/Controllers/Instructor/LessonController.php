@@ -33,7 +33,7 @@ class LessonController extends Controller
         ], 201);
     }
 
-    public function show(Course $course, Module $module, Lesson $lesson): JsonResponse
+    public function show(Lesson $lesson): JsonResponse
     {
         $this->authorize('view', $lesson);
  

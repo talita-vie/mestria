@@ -3,6 +3,11 @@ import api from "@/lib/api";
 
 export const lessonService = {
 
+  async getLesson(lessonId) {
+  const { data } = await api.get(`/api/instructor/lessons/${lessonId}`);
+  return data;
+ },
+
   async getMyLessons(
     courseId, 
     moduleId,

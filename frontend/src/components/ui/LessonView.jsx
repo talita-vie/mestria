@@ -44,7 +44,7 @@ export default function LessonView({ lesson, course, module, instructor, onBack 
         )}
 
         {/* Conteúdo texto */}
-    {lesson?.type === "text" && lesson?.content?.body && (
+    {lesson?.type === "text" && lesson?.content?.text && (
     <div className="rounded-xl bg-surface-container border border-outline-variant/40 p-8">
         <ReactMarkdown
         remarkPlugins={[remarkGfm]}
@@ -62,7 +62,7 @@ export default function LessonView({ lesson, course, module, instructor, onBack 
             a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{children}</a>,
         }}
         >
-        {lesson.content.body}
+        {lesson.content.text}
         </ReactMarkdown>
     </div>
     )}

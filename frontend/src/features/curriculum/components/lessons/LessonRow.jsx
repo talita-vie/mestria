@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import MDEditor from "@uiw/react-md-editor";
 
 // 1. COMPONENTE PRINCIPAL (Gerencia DnD e alterna os modos)
 export function LessonRow({ lesson, moduleId, courseId, onUpdate, onDelete }) {
@@ -96,16 +97,16 @@ function LessonEditForm({ lesson, onSave, onCancel }) {
         />
       )}
 
-      {lesson.type === "text" && ( 
-        <input
+      {lesson.type === "text" && (
+      <div data-color-mode="light" onKeyDown={handleKeyDown}>
+        <MDEditor
           value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={saving}
-          placeholder="Escreva o seu texto"
-          className="w-full bg-transparent border-b border-outline-variant text-body-sm text-on-surface-variant outline-none pb-0.5 focus:border-primary"
+          onChange={(val) => setText(val ?? "")}
+          height={400}
+          preview="live"
         />
-      )}
+      </div>
+    )}
 
       <div className="flex justify-end gap-2 mt-1">
         <button onClick={onCancel} disabled={saving} className="text-label-sm px-2 py-1 text-on-surface-variant hover:text-on-surface">Cancelar</button>
